@@ -2,7 +2,7 @@
   "name": "awards-and-recognitions",
   "displayName": "Awards and Recognitions",
   "description": "A constant reminder that even when your boss is silent, your work is valued here.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.109.0"

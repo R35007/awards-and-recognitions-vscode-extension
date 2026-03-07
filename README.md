@@ -10,7 +10,7 @@ _A lightweight VS Code extension that celebrates your daily wins with rotating r
 
 ## Overview
 
-`Awards and Recognitions` adds a dedicated Activity Bar view that continuously surfaces appreciation cards while you work. You can provide your own card content, style each card with custom backgrounds, and tune confetti behavior to match your flow.
+`Awards and Recognitions` adds a dedicated Activity Bar view that continuously surfaces appreciation cards while you work. You can provide your own card content, style each card with custom CSS-like `styles` (for example, custom `background` values), and tune confetti behavior to match your flow.
 
 The goal is simple: keep morale visible in the same place where you ship code.
 
@@ -34,6 +34,9 @@ The goal is simple: keep morale visible in the same place where you ship code.
 - Automatic card cycling with configurable interval
 - Custom cards (`title`, `message`, `background`) via VS Code settings
 - Built-in fallback messages and gradient styles when card fields are missing
+- Custom cards (`title`, `message`, `styles`) via VS Code settings (use `styles: { background: "..." }`)
+- Built-in fallback messages and gradient styles when card fields are missing
+- Pointer-based confetti click origin for more accurate click-triggered celebrations
 - Click-to-celebrate card interactions with optional confetti
 - Multiple confetti modes: `random`, `cannon`, `realistic`, `fireworks`, `stars`, `emoji`, `snow`, `schoolPride`
 
@@ -80,15 +83,15 @@ The extension contributes these commands:
 
 All settings live under `awardsAndRecognitions`.
 
-| Setting                                             | Type      | Default  | Description                                                                                      |
-| --------------------------------------------------- | --------- | -------- | ------------------------------------------------------------------------------------------------ |
-| `awardsAndRecognitions.cards`                       | `array`   | `[]`     | Custom recognition cards. Each card supports `title`, `message`, `background`.                   |
-| `awardsAndRecognitions.cardsInterval`               | `number`  | `15000`  | Auto-cycle interval in milliseconds. Set `0` to disable auto-cycling.                            |
-| `awardsAndRecognitions.disableConfettiOnNavigation` | `boolean` | `false`  | Disable confetti on next/previous navigation and auto-refresh transitions.                       |
-| `awardsAndRecognitions.disableConfettiOnRefresh`    | `boolean` | `false`  | Disable confetti when using refresh.                                                             |
-| `awardsAndRecognitions.disableConfettiOnClick`      | `boolean` | `false`  | Disable confetti when clicking the card.                                                         |
-| `awardsAndRecognitions.confettiStyle`               | `string`  | `random` | Choose `random`, `cannon`, `realistic`, `fireworks`, `stars`, `emoji`, `snow`, or `schoolPride`. |
-| `awardsAndRecognitions.confettiCount`               | `number`  | `150`    | Number of confetti particles used in effects.                                                    |
+| Setting                                             | Type      | Default  | Description                                                                                                      |
+| --------------------------------------------------- | --------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| `awardsAndRecognitions.cards`                       | `array`   | `[]`     | Custom recognition cards. Each card supports `title`, `message`, and `styles` (e.g., `{ "background": "..." }`). |
+| `awardsAndRecognitions.cardsInterval`               | `number`  | `15000`  | Auto-cycle interval in milliseconds. Set `0` to disable auto-cycling.                                            |
+| `awardsAndRecognitions.disableConfettiOnNavigation` | `boolean` | `false`  | Disable confetti on next/previous navigation and auto-refresh transitions.                                       |
+| `awardsAndRecognitions.disableConfettiOnRefresh`    | `boolean` | `false`  | Disable confetti when using refresh.                                                                             |
+| `awardsAndRecognitions.disableConfettiOnClick`      | `boolean` | `false`  | Disable confetti when clicking the card.                                                                         |
+| `awardsAndRecognitions.confettiStyle`               | `string`  | `random` | Choose `random`, `cannon`, `realistic`, `fireworks`, `stars`, `emoji`, `snow`, or `schoolPride`.                 |
+| `awardsAndRecognitions.confettiCount`               | `number`  | `150`    | Number of confetti particles used in effects.                                                                    |
 
 ### Example settings
 
@@ -98,7 +101,9 @@ All settings live under `awardsAndRecognitions`.
     {
       "title": "Awarded By: Team Lead",
       "message": "You turned a tough review into a great release.",
-      "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+      "styles": {
+        "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+      }
     },
     {
       "title": "Recognized By: Team",
