@@ -3,7 +3,7 @@ import * as vscode from "vscode";
 export type Card = {
   title?: string;
   message?: string;
-  background?: string;
+  styles?: { [key: string]: string };
 };
 
 export type ConfettiStyle = "random" | "cannon" | "realistic" | "fireworks" | "stars" | "emoji" | "snow" | "schoolPride";
@@ -28,7 +28,7 @@ export class Settings {
   }
 
   static get cards() {
-    return (Settings.getSettings("cards") as Card[]) || ([] as Card[]);
+    return (Settings.getSettings("cards") as Card[]) || ([{}] as Card[]);
   }
 
   static get cardsInterval() {

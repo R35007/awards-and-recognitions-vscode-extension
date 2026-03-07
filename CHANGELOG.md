@@ -4,9 +4,18 @@ All notable changes to the "recognition" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [1.0.0] - 2026-03-07
+## [2.0.0] - 2026-03-07
 
-### Added
+- Added: Pointer-based click origin support for confetti (`getPointerOriginScript`).
+- Changed
+  - Extension version bumped to `2.0.0` (`package.json`).
+  - Card configuration now uses a `styles` object instead of a single `background` string (`awardsAndRecognitions.cards`).
+  - Webview card rendering now applies the full `styles` object and preserves text/selection behavior.
+  - Confetti scripts updated to respect a click-origin when present and to improve firing behavior across styles.
+
+- Breaking Changes: If you previously provided `background` in `awardsAndRecognitions.cards`, migrate to `styles: { background: "..." }`.
+
+## [1.0.0] - 2026-03-07
 
 - Initial release of **Awards and Recognitions**.
 - Activity Bar container and dedicated webview for recognition cards.

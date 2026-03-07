@@ -2,7 +2,7 @@
   "name": "awards-and-recognitions",
   "displayName": "Awards and Recognitions",
   "description": "A constant reminder that even when your boss is silent, your work is valued here.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.109.0"
@@ -118,65 +118,28 @@
                 "type": "string",
                 "description": "Optional personalized message for this card. If not provided, a random message will be used."
               },
-              "background": {
-                "type": "string",
-                "description": "Optional CSS background value for the card (e.g., 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)')"
+              "styles": {
+                "type": "object",
+                "description": "Optional custom CSS styles for this card (e.g., { 'color': '#fff', 'fontSize': '18px' })",
+                "additionalProperties": true
               }
             }
           },
-          "default": [
-            {
-              "title": "Awarded By: CEO",
-              "message": "Your code quality is outstanding!",
-              "background": "linear-gradient(135deg, #200122 0%, #6f0000 100%)"
-            },
-            {
-              "title": "Recognized By: Manager",
-              "message": "You have been promoted to Senior Developer!",
-              "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
-            },
-            {
-              "title": "Recognized By: Manager",
-              "message": "Exceptional problem solving today."
-            },
-            {
-              "title": "Appreciated By: Team Leader",
-              "message": "Great job handling that complex bug!"
-            },
-            {
-              "title": "Recognized By: Team"
-            },
-            {
-              "title": "Appreciated By: Team"
-            },
-            {
-              "title": "You have been Promoted for:"
-            },
-            {
-              "title": "Celebrated By: Team",
-              "message": "The team is lucky to have you."
-            },
-            {
-              "message": "Keep up this amazing momentum!"
-            },
-            {
-              "message": "Your leadership skills are inspiring the whole team."
-            },
-            {
-              "message": "You make a real difference in our organization."
-            }
-          ],
           "examples": [
             [
               {
                 "title": "Awarded By: CEO",
                 "message": "Your code quality is outstanding!",
-                "background": "linear-gradient(135deg, #200122 0%, #6f0000 100%)"
+                "styles": {
+                  "background": "linear-gradient(135deg, #200122 0%, #6f0000 100%)"
+                }
               },
               {
                 "title": "Recognized By: Manager",
                 "message": "You have been promoted to Senior Developer!",
-                "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+                "styles": {
+                  "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+                }
               },
               {
                 "title": "Recognized By: Manager",
@@ -209,6 +172,9 @@
                 "message": "You make a real difference in our organization."
               }
             ]
+          ],
+          "default": [
+            {}
           ],
           "description": "Array of awards and recognition cards"
         },

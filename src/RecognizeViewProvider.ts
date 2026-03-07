@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { Settings, type ConfettiStyle } from "./Settings";
-import { getConfettiScript, getRandomDarkStyle, getRandomMessage } from "./utils";
+import { getConfettiScript, getPointerOriginScript, getRandomDarkStyle, getRandomMessage } from "./utils";
 
 type RenderReason = "initial" | "navigation" | "refresh" | "autoRefresh";
 
@@ -9,7 +9,7 @@ type RenderData = {
   message?: string;
   confettiStyle: Exclude<ConfettiStyle, "random">;
   confettiCount: number;
-  style: { background: string };
+  style: Record<string, string>;
   enableClickConfetti: boolean;
   fireOnLoad: boolean;
 };
@@ -88,7 +88,7 @@ export class RecognizeViewProvider implements vscode.WebviewViewProvider {
       message,
       confettiStyle: this._resolveConfettiStyle(),
       confettiCount: Settings.confettiCount,
-      style: { background: card.background || getRandomDarkStyle().background },
+      style: { color: "#ffffff", ...card.styles, background: card.styles?.background || getRandomDarkStyle().background },
       enableClickConfetti: !Settings.disableConfettiOnClick,
       fireOnLoad: this._shouldFireOnLoad(reason),
     };
@@ -118,17 +118,14 @@ export class RecognizeViewProvider implements vscode.WebviewViewProvider {
     const titleHtml = data.title ? `<div class="manager">${data.title}</div>` : "";
     const messageHtml = data.message ? `<div class="text">"${data.message}"</div>` : "";
     const confettiScript = getConfettiScript(data.confettiStyle, data.confettiCount);
-    const bodyOnClick = data.enableClickConfetti ? 'onclick="fire()"' : "";
+    const pointerScript = getPointerOriginScript();
     const cursorStyle = data.enableClickConfetti ? "pointer" : "default";
     const fireOnLoadScript = data.fireOnLoad ? "setTimeout(fire, 100);" : "";
-    const noCardMessage = !data.title && !data.message ? "You're doing great work!" : "";
-
-    const cardContent = titleHtml || messageHtml ? `${titleHtml}${messageHtml}` : `<div class="text">${noCardMessage}</div>`;
 
     return /*html*/ `
       <!DOCTYPE html>
       <html>
-      <head>
+        <head>
           <script src="https://cdn.jsdelivr.net"></script>
           <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
           <style>
@@ -147,7 +144,6 @@ export class RecognizeViewProvider implements vscode.WebviewViewProvider {
               }
               .card {
                   user-select: none;
-                  background: ${data.style.background};
                   padding: 1rem; 
                   border-radius: 6px; 
                   margin: 0.5rem;
@@ -157,16 +153,21 @@ export class RecognizeViewProvider implements vscode.WebviewViewProvider {
                   display: grid;
                   place-items: center;
                   min-height: 60px;
+                  ${Object.entries(data.style)
+                    .map(([key, value]) => `${key}: ${value};`)
+                    .join(" ")}
               }
-              .manager { font-size: 0.8rem; opacity: 0.7; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; }
-              .text { font-size: 1.2rem; font-style: italic; line-height: 1.4; font-weight: 600; }
+              .manager { user-select: none; font-size: 0.8rem; opacity: 0.7; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; }
+              .text { user-select: none; font-size: 1.2rem; font-style: italic; line-height: 1.4; font-weight: 600; }
           </style>
       </head>
-        <body ${bodyOnClick}>
+        <body>
           <div class="card">
-              ${cardContent}
+              ${titleHtml}
+              ${messageHtml}
           </div>
           <script>
+              ${pointerScript}
               ${confettiScript}
               ${fireOnLoadScript}
           </script>

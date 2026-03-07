@@ -8,14 +8,32 @@ export function getRandomDarkStyle() {
   return { background: darkGradients[Math.floor(Math.random() * darkGradients.length)] };
 }
 
+export function getPointerOriginScript() {
+  return `window.__confettiClick = null;
+          document.addEventListener('click', function(e) {
+            const x = e.clientX / Math.max(1, window.innerWidth);
+            const y = e.clientY / Math.max(1, window.innerHeight);
+            window.__confettiClick = { x: x, y: y };
+            try {
+              fire();
+            } catch {}
+          });
+  `;
+}
+
 export function getConfettiScript(style: string, count: number): string {
+  const oxClick = "(window.__confettiClick ? window.__confettiClick.x : Math.random())";
+  const oyClick = "(window.__confettiClick ? window.__confettiClick.y : Math.random())";
+  const oyCannon = "(window.__confettiClick ? window.__confettiClick.y : 0.6)";
+  const oyRealistic = "(window.__confettiClick ? window.__confettiClick.y : 0.7)";
+
   const scripts: { [key: string]: string } = {
     cannon: `
         function fire() {
           confetti({
             particleCount: Math.max(1, ${count}),
             spread: 70,
-            origin: { y: 0.6 }
+            origin: { x: ${oxClick}, y: ${oyCannon} }
           });
         }
       `,
@@ -124,15 +142,13 @@ export function getConfettiScript(style: string, count: number): string {
             var starCount = Math.max(1, Math.ceil(roundCount * 0.8));
             var circleCount = Math.max(0, roundCount - starCount);
 
-            confetti({ ...defaults, particleCount: starCount, scalar: 1.2, shapes: ["star"] });
+            confetti({ ...defaults, particleCount: starCount, scalar: 1.2, shapes: ["star"], origin: { x: ${oxClick}, y: ${oyClick} } });
             if (circleCount > 0) {
-              confetti({ ...defaults, particleCount: circleCount, scalar: 0.75, shapes: ["circle"] });
+              confetti({ ...defaults, particleCount: circleCount, scalar: 0.75, shapes: ["circle"], origin: { x: ${oxClick}, y: ${oyClick} } });
             }
           }
 
           setTimeout(shoot, 0);
-          setTimeout(shoot, 100);
-          setTimeout(shoot, 200);
         }
       `,
     emoji: `
@@ -165,50 +181,30 @@ export function getConfettiScript(style: string, count: number): string {
             var flat = Math.max(0, Math.floor(roundCount * 0.1));
             var circles = Math.max(0, roundCount - primary - flat);
 
-            confetti({ ...defaults, particleCount: primary });
+            confetti({ ...defaults, particleCount: primary, origin: { x: ${oxClick}, y: ${oyClick} } });
             if (flat > 0) {
-              confetti({ ...defaults, particleCount: flat, flat: true });
+              confetti({ ...defaults, particleCount: flat, flat: true, origin: { x: ${oxClick}, y: ${oyClick} } });
             }
             if (circles > 0) {
-              confetti({ ...defaults, particleCount: circles, scalar: scalar / 2, shapes: ["circle"] });
+              confetti({ ...defaults, particleCount: circles, scalar: scalar / 2, shapes: ["circle"], origin: { x: ${oxClick}, y: ${oyClick} } });
             }
           }
 
           setTimeout(shoot, 0);
-          setTimeout(shoot, 100);
-          setTimeout(shoot, 200);
         }
       `,
     schoolPride: `
         function fire() {
-          var end = Date.now() + 2000;
+          var end = Date.now() + 500;
           var colors = ["#BB0000", "#FFFFFF"];
-          var total = Math.max(1, ${count});
+          var total = Math.max(2, ${parseInt(count.toString()[0], 10)});
           var remaining = total;
 
           (function frame() {
-            var timeLeft = end - Date.now();
-            if (timeLeft <= 0 || remaining <= 0) {
-              return;
-            }
+              confetti({ particleCount: total, angle: 60, spread: 50, origin: { x: 0 }, colors: colors });
+              confetti({ particleCount: total, angle: 120, spread: 50, origin: { x: 1 }, colors: colors });
 
-            var ticksLeft = Math.max(1, Math.ceil(timeLeft / 16));
-            var perSide = Math.max(1, Math.ceil(remaining / (ticksLeft * 2)));
-
-            var leftCount = Math.min(remaining, perSide);
-            remaining -= leftCount;
-
-            var rightCount = Math.min(remaining, perSide);
-            remaining -= rightCount;
-
-            if (leftCount > 0) {
-              confetti({ particleCount: leftCount, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-            }
-            if (rightCount > 0) {
-              confetti({ particleCount: rightCount, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-            }
-
-            if (Date.now() < end && remaining > 0) {
+            if (Date.now() < end) {
               requestAnimationFrame(frame);
             }
           })();
@@ -218,7 +214,7 @@ export function getConfettiScript(style: string, count: number): string {
         function fire() {
           var total = Math.max(1, ${count});
           var remaining = total;
-          var defaults = { origin: { y: 0.7 } };
+          var defaults = { origin: { x: ${oxClick}, y: ${oyRealistic} } };
 
           function shoot(targetCount, opts) {
             if (remaining <= 0) {
