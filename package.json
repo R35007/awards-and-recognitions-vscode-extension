@@ -1,0 +1,278 @@
+{
+  "name": "awards-and-recognitions",
+  "displayName": "Awards and Recognitions",
+  "description": "A constant reminder that even when your boss is silent, your work is valued here.",
+  "version": "1.0.0",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "publisher": "Thinker",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/R35007/awards-and-recognitions-vscode-extension"
+  },
+  "author": {
+    "name": "Sivaraman",
+    "email": "sendmsg2siva@gmail.com"
+  },
+  "keywords": [
+    "awards",
+    "recognitions",
+    "cards",
+    "quotes",
+    "task cards",
+    "awards and recognitions",
+    "appreciations",
+    "daily cards",
+    "confetti",
+    "playful"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "awardsAndRecognitions.previousCard",
+        "title": "Previous Card",
+        "icon": "$(chevron-left)"
+      },
+      {
+        "command": "awardsAndRecognitions.nextCard",
+        "title": "Next Card",
+        "icon": "$(chevron-right)"
+      },
+      {
+        "command": "awardsAndRecognitions.refresh",
+        "title": "Refresh Recognition",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "awardsAndRecognitions.openSettings",
+        "title": "Settings",
+        "icon": "$(gear)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "awardsAndRecognitions.previousCard",
+          "when": "view == awardsAndRecognitions.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "awardsAndRecognitions.nextCard",
+          "when": "view == awardsAndRecognitions.view",
+          "group": "navigation@2"
+        },
+        {
+          "command": "awardsAndRecognitions.refresh",
+          "when": "view == awardsAndRecognitions.view",
+          "group": "navigation@3"
+        },
+        {
+          "command": "awardsAndRecognitions.openSettings",
+          "when": "view == awardsAndRecognitions.view",
+          "group": "navigation@4"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "awardsAndRecognitions",
+          "title": "Awards & Recognitions",
+          "icon": "./images/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "awardsAndRecognitions": [
+        {
+          "id": "awardsAndRecognitions.view",
+          "name": "Cards",
+          "contextualTitle": "Awards & Recognition",
+          "visibility": "visible",
+          "icon": "./images/icon.svg",
+          "type": "webview"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Awards & Recognitions",
+      "properties": {
+        "awardsAndRecognitions.cards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Title of the award or recognitions (e.g., 'AWARDED BY: CEO')"
+              },
+              "message": {
+                "type": "string",
+                "description": "Optional personalized message for this card. If not provided, a random message will be used."
+              },
+              "background": {
+                "type": "string",
+                "description": "Optional CSS background value for the card (e.g., 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)')"
+              }
+            }
+          },
+          "default": [
+            {
+              "title": "Awarded By: CEO",
+              "message": "Your code quality is outstanding!",
+              "background": "linear-gradient(135deg, #200122 0%, #6f0000 100%)"
+            },
+            {
+              "title": "Recognized By: Manager",
+              "message": "You have been promoted to Senior Developer!",
+              "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+            },
+            {
+              "title": "Recognized By: Manager",
+              "message": "Exceptional problem solving today."
+            },
+            {
+              "title": "Appreciated By: Team Leader",
+              "message": "Great job handling that complex bug!"
+            },
+            {
+              "title": "Recognized By: Team"
+            },
+            {
+              "title": "Appreciated By: Team"
+            },
+            {
+              "title": "You have been Promoted for:"
+            },
+            {
+              "title": "Celebrated By: Team",
+              "message": "The team is lucky to have you."
+            },
+            {
+              "message": "Keep up this amazing momentum!"
+            },
+            {
+              "message": "Your leadership skills are inspiring the whole team."
+            },
+            {
+              "message": "You make a real difference in our organization."
+            }
+          ],
+          "examples": [
+            [
+              {
+                "title": "Awarded By: CEO",
+                "message": "Your code quality is outstanding!",
+                "background": "linear-gradient(135deg, #200122 0%, #6f0000 100%)"
+              },
+              {
+                "title": "Recognized By: Manager",
+                "message": "You have been promoted to Senior Developer!",
+                "background": "linear-gradient(135deg, #141e30 0%, #243b55 100%)"
+              },
+              {
+                "title": "Recognized By: Manager",
+                "message": "Exceptional problem solving today."
+              },
+              {
+                "title": "Appreciated By: Team Leader",
+                "message": "Great job handling that complex bug!"
+              },
+              {
+                "title": "Recognized By: Team"
+              },
+              {
+                "title": "Appreciated By: Team"
+              },
+              {
+                "title": "You have been Promoted for:"
+              },
+              {
+                "title": "Celebrated By: Team",
+                "message": "The team is lucky to have you."
+              },
+              {
+                "message": "Keep up this amazing momentum!"
+              },
+              {
+                "message": "Your leadership skills are inspiring the whole team."
+              },
+              {
+                "message": "You make a real difference in our organization."
+              }
+            ]
+          ],
+          "description": "Array of awards and recognition cards"
+        },
+        "awardsAndRecognitions.cardsInterval": {
+          "type": "number",
+          "default": 15000,
+          "description": "Time interval (in milliseconds) for automatically cycling through cards. Set to 0 to disable auto-cycling."
+        },
+        "awardsAndRecognitions.disableConfettiOnNavigation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable confetti animation when navigating to the next ore previous card."
+        },
+        "awardsAndRecognitions.disableConfettiOnRefresh": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable confetti animation when refreshing the current card."
+        },
+        "awardsAndRecognitions.disableConfettiOnClick": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable confetti animation when clicking on the card."
+        },
+        "awardsAndRecognitions.confettiStyle": {
+          "type": "string",
+          "enum": [
+            "random",
+            "cannon",
+            "realistic",
+            "fireworks",
+            "stars",
+            "emoji",
+            "snow",
+            "schoolPride"
+          ],
+          "default": "random",
+          "description": "Choose a specific confetti style or let it be random."
+        },
+        "awardsAndRecognitions.confettiCount": {
+          "type": "number",
+          "default": 150,
+          "description": "Number of confetti particles."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@types/node": "22.x",
+    "@types/vscode": "^1.109.0",
+    "eslint": "^9.39.3",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "webpack": "^5.105.3",
+    "webpack-cli": "^6.0.1"
+  }
+}
