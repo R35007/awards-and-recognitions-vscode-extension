@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("awardsAndRecognitions.openSettings", () => {
       vscode.commands.executeCommand(
         Settings.hasWorkspaceSetting() ? "workbench.action.openWorkspaceSettings" : "workbench.action.openSettings",
-        " @ext:thinker.awardsAndRecognitions ",
+        " @ext:thinker.awards-and-recognitions ",
       );
     }),
     vscode.workspace.onDidChangeConfiguration((event) => {

@@ -2,7 +2,7 @@
   "name": "awards-and-recognitions",
   "displayName": "Awards and Recognitions",
   "description": "A constant reminder that even when your boss is silent, your work is valued here.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.109.0"
@@ -81,20 +81,11 @@
         }
       ]
     },
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "awardsAndRecognitions",
-          "title": "Awards & Recognitions",
-          "icon": "./images/icon.svg"
-        }
-      ]
-    },
     "views": {
-      "awardsAndRecognitions": [
+      "explorer": [
         {
           "id": "awardsAndRecognitions.view",
-          "name": "Cards",
+          "name": "Awards & Recognition",
           "contextualTitle": "Awards & Recognition",
           "visibility": "visible",
           "icon": "./images/icon.svg",
@@ -180,7 +171,7 @@
         },
         "awardsAndRecognitions.cardsInterval": {
           "type": "number",
-          "default": 15000,
+          "default": 30000,
           "description": "Time interval (in milliseconds) for automatically cycling through cards. Set to 0 to disable auto-cycling."
         },
         "awardsAndRecognitions.disableConfettiOnNavigation": {

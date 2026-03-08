@@ -8,7 +8,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Added: Pointer-based click origin support for confetti (`getPointerOriginScript`).
 - Changed
-  - Extension version bumped to `2.0.0` (`package.json`).
   - Card configuration now uses a `styles` object instead of a single `background` string (`awardsAndRecognitions.cards`).
   - Webview card rendering now applies the full `styles` object and preserves text/selection behavior.
   - Confetti scripts updated to respect a click-origin when present and to improve firing behavior across styles.
